@@ -1,0 +1,19 @@
+{
+  "game_name": "AI Automation Farm 프로젝트 2화",
+  "key_events": [
+    "Vibe Coding의 핵심 도구인 Antigravity 공식 사이트(https://antigravity.google/) 접속",
+    "운용 체제(Windows)에 맞는 설치 파일 다운로드 및 설치 진행",
+    "개발자의 모토인 '차근차근 꼼꼼하게' 셋업 완료"
+  ],
+  "qer_tips": [
+    "구축의 첫걸음은 가장 핫한 도구인 Antigravity 선택부터 시작됨",
+    "급하게 하는 것보다 단계별로 꼼꼼하게 환경을 조성하는 것이 롱런의 비결",
+    "각 OS 버전에 맞는 최적의 파일을 선택하는 것이 중요"
+  ],
+  "image_references": [
+    { "context": "Antigravity 공식 홈페이지 메인 화면", "file": "anti소개.jpg" },
+    { "context": "OS별 다운로드 선택 화면(Windows 버전)", "file": "다운로드.jpg" },
+    { "context": "설치가 성공적으로 완료된 짜릿한 순간", "file": "설치완료.jpg" }
+  ],
+  "feelings": "설레이는 자동화 팜의 첫 번째 하드웨어/소프트웨어 세팅 완료. 꼼꼼함이 무기다."
+}

@@ -1,0 +1,24 @@
+{
+  "series": "AI Automation Farm",
+  "episode": 3,
+  "title": "Multi-Agent Architecture 구성 & AGENTS.md 표준화",
+  "key_events": [
+    "설치 완료 후 Multi-Agent Architecture 구성 시작",
+    "Antigravity Agent Manager에서 총괄매니저, 작가요원, 분석요원, 개발요원 4명의 에이전트 생성",
+    "각 에이전트에 개별 MD 지침 파일을 연결하여 초기 구조 완성",
+    "업계 표준으로 AGENTS.md 통합 방식이 부상 - 개별 파일에서 통합 파일로 전환",
+    "프로젝트 루트에 AGENTS.md 하나로 모든 에이전트 지침을 통합하여 관리 효율 극대화"
+  ],
+  "qer_tips": [
+    "Agent Manager의 + 버튼으로 에이전트 추가, MD 파일로 지침 각인이 핵심",
+    "AGENTS.md 표준은 코딩 에이전트 간 호환성 + 버전 관리 두 마리 토끼를 잡는 꿀팁",
+    "프로젝트 루트에 AGENTS.md 하나만 관리하면 모든 에이전트가 동일한 철학으로 움직임"
+  ],
+  "image_references": [
+    { "file": "1.agent추가.png", "context": "Antigravity Agent Manager 화면 - 프로젝트명이 표시되고 + 버튼으로 에이전트를 추가하는 단계" },
+    { "file": "2.agent추가 결과.png", "context": "총괄매니저, 작가요원, 분석요원, 개발요원 4개 에이전트가 생성된 결과 화면" },
+    { "file": "3.md파일 추가결과.png", "context": "각 에이전트에 MD 지침서가 연결되어 완성된 초기 구조 화면" },
+    { "file": "4.agent통합.png", "context": "AGENTS.md 하나로 모든 에이전트를 통합 관리하는 최종 구조 화면" }
+  ],
+  "feelings": "처음에는 각자 파일 관리가 당연했지만 AGENTS.md 표준화로 훨씬 효율적인 구조를 갖추게 된 만족감"
+}

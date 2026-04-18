@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>AI Automation Farm · Build Log #3 – Multi‑Agent Architecture & AGENTS.md</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;700;800&display=swap');
+body {font-family:'Pretendard',sans-serif;background:#fbfbfd;color:#1d1d1f;margin:0;padding:40px 20px;}
+.container {max-width:820px;margin:auto;background:#fff;padding:50px;border-radius:32px;border:1px solid #d2d2d7;box-shadow:0 10px 40px rgba(0,0,0,0.05);}
+.header {margin-bottom:40px;border-bottom:4px solid #000;padding-bottom:20px;}
+.category {font-size:14px;font-weight:800;letter-spacing:2px;color:#007aff;text-transform:uppercase;margin-bottom:10px;display:block;}
+.h1 {font-size:36px;font-weight:800;letter-spacing:-1.5px;line-height:1.2;margin:0;}
+.intro {font-size:18px;background:#f9f9fb;padding:28px 32px;border-left:5px solid #007aff;border-radius:20px;margin-bottom:40px;}
+.step {font-size:24px;font-weight:800;margin:50px 0 20px;padding-left:18px;border-left:6px solid #007aff;color:#1d1d1f;}
+.p {font-size:17px;color:#444;margin-bottom:20px;}
+.img-card {margin:30px 0;border:2px dashed #007aff;border-radius:20px;overflow:hidden;background:#f0f7ff;}
+.caption {background:#fff;padding:20px;border-top:1px solid #eee;text-align:center;font-size:15px;color:#666;font-style:italic;}
+.tag {background:#eee;padding:8px 16px;border-radius:10px;font-size:14px;font-weight:600;color:#555;margin:4px;display:inline-block;}
+.footer {margin-top:60px;border-top:1px solid #d2d2d7;padding-top:30px;display:flex;flex-wrap:wrap;gap:8px;}
+</style>
+</head>
+<body>
+<div class="container">
+  <header class="header">
+    <span class="category">AI Automation Farm · Build Log #3</span>
+    <h1 class="h1">에이전트 소환 완료!<br>근데 잠깐, <span style="color:#007aff;">AGENTS.md</span>가 뭔가요? 🤖</h1>
+    <p class="p">셋업 끝, 이제 진짜 시작입니다. Multi‑Agent Architecture 구성부터 업계 표준 통합까지.</p>
+  </header>
+
+  <section class="intro">
+    지난 시간에 Antigravity 설치를 마쳤습니다. 이제 본격적으로 <strong>Multi‑Agent Architecture</strong>를 구성할 차례입니다. 저도 처음엔 "그냥 에이전트 몇 개 만들면 되겠지?"라고 생각했는데… 생각보다 훨씬 재밌는 이야기가 펼쳐졌습니다. 😅
+  </section>
+
+  <h2 class="step">🛠️ STEP 01. Agent Manager로 팀원 소환하기</h2>
+  <p class="p">Antigravity의 <strong>Agent Manager</strong>를 실행하면 현재 프로젝트 이름이 상단에 표시됩니다. 여기서 <strong>+ 버튼</strong>을 누르면 새로운 AI 직원(에이전트)를 추가할 수 있습니다. 클릭 한 번이면 됩니다.</p>
+  <div class="img-card">
+    <img src="../shared/4.4/1.agent추가.png" alt="Agent Manager 화면" style="width:100%;display:block;">
+    <div class="caption">Agent Manager 실행 화면 – + 버튼으로 팀원을 소환합니다.</div>
+  </div>
+
+  <h2 class="step">👥 STEP 02. QER Company 팀 구성 완료</h2>
+  <p class="p">우리 ‘QER Company’에 맞게 총 4명의 AI 직원을 구성했습니다.</p>
+  <div style="background:#f4f4f8;border-radius:16px;padding:28px 32px;margin-bottom:20px;">
+    <p style="margin:0 0 10px;font-size:16px;font-weight:700;color:#007aff;">QER 멀티에이전트 팀원 명단:</p>
+    <p style="margin:6px 0;font-size:16px;">📋 <strong>총괄 매니저</strong> — 사장님의 지시를 받아 전체를 지휘</p>
+    <p style="margin:6px 0;font-size:16px;">✍️ <strong>작가 요원 (Editor Paul)</strong> — 분석 데이터를 HTML 포스팅으로 변환</p>
+    <p style="margin:6px 0;font-size:16px;">🔍 <strong>분석 요원 (Extractor)</strong> — 일기에서 핵심 데이터 추출 및 JSON화</p>
+    <p style="margin:6px 0;font-size:16px;">⚙️ <strong>개발 요원 (Developer)</strong> — 파이프라인 자동화 및 기술 업무 담당</p>
+  </div>
+  <div class="img-card">
+    <img src="../shared/4.4/2.agent추가 결과.png" alt="팀원 소환 결과" style="width:100%;display:block;">
+    <div class="caption">4명의 AI 팀원이 성공적으로 소환된 화면.</div>
+  </div>
+
+  <h2 class="step">📋 STEP 03. MD 파일로 ‘사내 업무 규정집’ 각인하기</h2>
+  <p class="p">AI는 매번 대화를 새로 시작합니다. 즉, <strong>아무것도 기억 못 합니다.</strong> 이 문제를 해결하기 위해 각 에이전트에 <strong>markdown(.md) 파일</strong> 형태의 전용 지침서를 연결합니다. 출근할 때마다 자동으로 사규를 읽고 역할을 파악하게 됩니다.</p>
+  <div class="img-card">
+    <img src="../shared/4.4/3.md파일 추가결과.png" alt="MD 파일 연결 결과" style="width:100%;display:block;">
+    <div class="caption">각 에이전트에게 MD 지침서가 연결되어 초기 구조가 완성되었습니다.</div>
+  </div>
+
+  <div style="margin:50px 0;background:#000;color:#fff;border-radius:24px;padding:40px;">
+    <p style="font-size:13px;font-weight:800;letter-spacing:3px;color:#007aff;margin:0 0 12px;">INDUSTRY STANDARD UPDATE</p>
+    <h2 style="font-size:26px;font-weight:800;margin:0 0 20px;color:#fff;">근데 잠깐, <span style="color:#007aff;">AGENTS.md</span>라는 게 생겼다고요?</h2>
+    <p style="font-size:16px;color:#ccc;line-height:1.8;">개별 MD 파일로 관리하던 방식이 자리를 잡을 즈음, AI 에이전트 업계에서 중요한 흐름이 생겼습니다. <strong>Anthropic(클로드), Google(제미나이), OpenAI</strong> 등 주요 AI 공급사들이 서로 다른 에이전트 플랫폼 간 호환성을 위해 <strong>표준화된 단일 지침 파일 포맷</strong>의 필요성을 제기했습니다.</p>
+    <p style="font-size:16px;color:#ccc;line-height:1.8;">그 결과물이 바로 <strong>AGENTS.md</strong>입니다. 프로젝트 루트(최상위) 폴더에 이 파일 하나만 놓으면, 어떤 AI 에이전트든, 어떤 플랫폼이든 이 파일을 읽고 프로젝트 규칙을 파악하게 됩니다.</p>
+    <div style="background:#1a1a1a;border-radius:12px;padding:20px 24px;border-left:4px solid #007aff;">
+      <p style="margin:0;font-size:15px;color:#fff;font-weight:700;">📌 핵심 요약</p>
+      <p style="margin:10px 0 0;font-size:15px;color:#aaa;line-height:1.7;">개별 MD 파일 → 단일 <strong style="color:#fff;">AGENTS.md</strong> (전체 통합)<br>호환성 ✅ · 버전 관리 ✅ · 협업 효율 ✅</p>
+    </div>
+  </div>
+
+  <h2 class="step">⚡ STEP 04. 저도 바로 AGENTS.md로 통합했습니다</h2>
+  <p class="p">방법은 생각보다 간단합니다. 프로젝트 루트 폴더에 <strong>AGENTS.md</strong> 파일 하나를 만들고, 기존에 분산돼 있던 모든 에이전트 지침을 섹션별로 정리해서 옮겨 넣으면 끝입니다. 이제 저는 이 파일 하나만 관리하면 됩니다.</p>
+  <div class="img-card">
+    <img src="../shared/4.4/4.agent통합.png" alt="AGENTS.md 통합 화면" style="width:100%;display:block;">
+    <div class="caption">AGENTS.md 하나로 모든 에이전트를 통합 관리하는 최종 구조.</div>
+  </div>
+
+  <div style="margin:50px 0;background:#f4f4f8;border-radius:20px;padding:36px;text-align:center;">
+    <p style="font-size:22px;font-weight:800;color:#1d1d1f;margin:0 0 16px;">"Multi‑Agent, 어렵지 않습니다.<br>준비물: <span style="color:#007aff;">AGENTS.md</span> 파일 하나면 충분합니다."</p>
+    <p style="font-size:17px;color:#555;">여러분도 멀티에이전트를 구상 중이라면, 처음부터 <strong>AGENTS.md</strong> 방식으로 시작하시길 적극 추천드립니다. 꿀팁입니다! 🍯</p>
+  </div>
+
+  <p style="font-size:17px;color:#444;margin:40px 0 0;text-align:center;">다음 시간에는 실제로 이 자동화 팜이 어떻게 돌아가는지, 파이프라인 작동 영상을 가지고 찾아뵙겠습니다. 곧 뵙겠습니다! 👋</p>
+
+  <div class="footer">
+    <span class="tag">#MultiAgent</span>
+    <span class="tag">#AGENTS.md</span>
+    <span class="tag">#VibeCoding</span>
+    <span class="tag">#자동화팜</span>
+    <span class="tag">#Antigravity</span>
+    <span class="tag">#개발로그</span>
+  </div>
+</div>
+</body>
+</html>
