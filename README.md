@@ -85,7 +85,14 @@ BASE_URL=https://your-server-url.com
 pip install streamlit fastapi uvicorn groq python-telegram-bot httpx python-multipart
 ```
 
-### 3. 서비스별 실행 방법
+### 3. 텔레그램 봇 생성 가이드 (Telegram Bot Setup)
+텔레그램 봇 연동을 위해 다음 절차에 따라 봇을 생성하고 토큰을 발급받아야 합니다:
+1. 스마트폰/PC 텔레그램 앱에서 **`BotFather`**를 검색하여 대화방에 입장합니다.
+2. 채팅창에 **`/newbot`**을 전송하고, 로봇 이름과 아이디(반드시 `bot`으로 끝나는 영어)를 지정합니다.
+3. 화면에 발급되는 긴 문자열의 **`HTTP API Token`**을 복사합니다.
+4. 최상단 디렉토리의 `.env` 파일에 `TELEGRAM_BOT_TOKEN=발급받은토큰` 형태로 저장합니다.
+
+### 4. 서비스별 실행 방법
 
 **A. 관제용 웹 대시보드 (Streamlit) 실행:**
 ```bash

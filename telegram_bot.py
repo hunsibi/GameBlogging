@@ -9,6 +9,9 @@ telegram_bot.py - QER 텔레그램 봇
     TELEGRAM_BOT_TOKEN=your_token_here
 """
 import os
+import sys
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8')
 import re
 import base64
 import logging
@@ -147,10 +150,10 @@ async def generate(update: Update, ctx: ContextTypes.DEFAULT_TYPE):
 
     # 생성 시작 알림
     waiting_msg = await update.message.reply_text(
-        "⚡ *AI 직원 3명이 에세이를 창작하는 중입니다...*\n\n"
-        "🧭 Agent 0 — 워크플로우 설계 중...\n"
-        "🔎 Agent 1 — 스토리 구조 분석 중...\n"
-        "✍️ Agent 2 — 감성 에세이 집필 중...\n\n"
+        "⚡ *QER 전담 요원 3명이 에세이를 창작하는 중입니다...*\n\n"
+        "🧭 Agile Captain — 워크플로우 조율 및 통제 중...\n"
+        "🔎 Extractor — 메모장 심층 분석 및 스토리 확장 중...\n"
+        "✍️ Editor Paul — 감성 에세이 집필 및 웹 포스팅 조립 중...\n\n"
         "_이미지 생성까지 1~2분 소요됩니다. 잠시만 기다려주세요!_",
         parse_mode="Markdown"
     )

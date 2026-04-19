@@ -241,9 +241,9 @@ with st.sidebar:
     st.markdown("<br>", unsafe_allow_html=True)
     st.markdown("**🤖 AI 직원 소개**")
     for agent in [
-        ("🧭", "Agent 0", "총괄 매니저", "워크플로우 설계"),
-        ("🔎", "Agent 1", "데이터 분석", "스토리 뼈대 구성"),
-        ("✍️", "Agent 2", "집필 요원 Paul", "감성 에세이 창작"),
+        ("🧭", "Agent 0", "Antigravity (총괄)", "전체 파이프라인 지휘"),
+        ("🔎", "Agent 1", "분석 요원", "스토리 뼈대 구성"),
+        ("✍️", "Agent 2", "집필 요원 Paul", "감성 에세이 창작 및 디자인"),
     ]:
         st.markdown(f"""
 <div style="background:#141428;border-radius:10px;padding:10px 14px;margin-bottom:8px;border:1px solid #2d2d44;">

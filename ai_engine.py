@@ -141,9 +141,11 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
                 ai_data.get("img3_prompt", img_prompts[2]),
             ]
 
-            H3 = ("color:#d63031;font-weight:900;font-size:27px;margin:55px 0 16px;"
-                  "border-left:5px solid #ff6b6b;padding-left:16px;line-height:1.3;")
-            P  = "font-size:19px;line-height:2.15;color:#333;margin-bottom:28px;"
+            # Liquid Glass inline styling for H3 and P
+            H3 = ("color:#fff;font-weight:900;font-size:27px;margin:55px 0 16px;"
+                  "border-left:5px solid rgba(255,107,107,0.8);padding-left:18px;line-height:1.3;"
+                  "text-shadow: 0 4px 16px rgba(255,107,107,0.3);")
+            P  = "font-size:19px;line-height:2.15;color:rgba(255,255,255,0.9);margin-bottom:28px;"
             essay_html = (
                 f"<h3 style='{H3}'>Chapter 1. {ch1_t}</h3>"
                 f"<p style='{P}'>{ch1_b}</p>[IMG_1]"
@@ -157,7 +159,7 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
     else:
         essay_html = "<p style='color:red;'>GROQ_API_KEY가 없습니다.</p>"
 
-    # ── 이미지 보충 ────────────────────────────────────────────────
+    # ── 이미지 보충 (Liquid Glass 스타일 부착) ────────────────────────
     while len(images_to_use) < 3:
         idx  = len(images_to_use)
         seed = random.randint(1, 99999)
@@ -171,9 +173,9 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
             return ""
         return (
             "<div style='text-align:center;margin:48px 0;'>"
-            f"<img src='{src}' style='max-width:100%;border-radius:18px;"
-            "box-shadow:0 16px 40px rgba(0,0,0,.13);'>"
-            f"<p style='margin-top:12px;font-size:14px;color:#aaa;font-style:italic;'>{cap}</p>"
+            f"<img src='{src}' style='max-width:100%;border-radius:24px;"
+            "box-shadow: 0 20px 60px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1);'>"
+            f"<p style='margin-top:16px;font-size:14px;color:rgba(255,255,255,0.5);font-style:italic;'>{cap}</p>"
             "</div>"
         )
 
@@ -189,7 +191,7 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
                    .replace("[IMG_2]", img_tags[1])
                    .replace("[IMG_3]", img_tags[2]))
 
-    # ── 최종 HTML 조립 ─────────────────────────────────────────────
+    # ── 최종 HTML 조립 (Liquid Glass Aesthetic) ───────────────────
     import datetime
     pub_date = datetime.datetime.now().strftime("%Y년 %m월 %d일")
     full_html = f"""<!DOCTYPE html>
@@ -198,29 +200,58 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{novel_title} | QER MEDIA</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700;900&display=swap" rel="stylesheet">
 <style>
-body{{margin:0;padding:0;background:#f0f0f5;font-family:'Noto Sans KR',sans-serif;}}
-.wrap{{background:#fff;max-width:860px;margin:40px auto;padding:70px 60px;
-       border-radius:24px;box-shadow:0 24px 64px rgba(0,0,0,.08);}}
-.badge{{background:#ffe0e0;color:#d63031;padding:9px 20px;border-radius:30px;
-        font-weight:900;font-size:13px;letter-spacing:2px;display:inline-block;}}
-h1{{color:#111;text-align:center;font-size:38px;font-weight:900;
-    margin:40px 0 70px;line-height:1.5;}}
-.footer{{text-align:center;margin-top:80px;padding-top:36px;
-         border-top:1px dashed #e0e0e0;color:#bbb;font-size:13px;}}
+body {{
+    margin:0; padding:0; font-family:'Noto Sans KR',sans-serif;
+    background-color: #0c0f1a;
+    background-image: 
+        radial-gradient(at 0% 0%, #1a1025 0px, transparent 50%),
+        radial-gradient(at 100% 100%, #152036 0px, transparent 50%),
+        radial-gradient(at 100% 0%, #2a1532 0px, transparent 50%);
+    background-attachment: fixed;
+    color: #ffffff;
+}}
+.wrap {{
+    max-width:860px; margin:50px auto; padding:70px 60px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(40px) saturate(200%);
+    -webkit-backdrop-filter: blur(40px) saturate(200%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 32px;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+}}
+.badge {{
+    background: rgba(255, 107, 107, 0.15);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    color: #ff8787; padding: 10px 24px; border-radius: 30px;
+    font-weight: 800; font-size: 13px; letter-spacing: 2px; display: inline-block;
+    box-shadow: 0 8px 24px rgba(255, 107, 107, 0.15);
+}}
+h1 {{
+    color: #fff; text-align: center; font-size: 42px; font-weight: 900;
+    margin: 40px 0 70px; line-height: 1.4;
+    text-shadow: 0 4px 20px rgba(255,255,255,0.2);
+}}
+.footer {{
+    text-align: center; margin-top: 80px; padding-top: 36px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.4); font-size: 13px;
+}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div style="text-align:center;margin-bottom:36px;">
-    <span class="badge">QER MEDIA &middot; AI 집필 요원 Paul</span>
-    <div style="color:#bbb;font-size:13px;margin-top:12px;">{pub_date}</div>
+    <span class="badge">QER MEDIA &middot; 총괄 Antigravity x 집필 Paul</span>
+    <div style="color:rgba(255,255,255,0.5);font-size:13px;margin-top:16px;">{pub_date}</div>
   </div>
   <h1>{novel_title}</h1>
   {final_essay}
   <div class="footer">
-    QER 집필 요원 Paul &middot; Groq AI (LLaMA 3.3 70B) &middot; Multi-Agent 무인 출판 파이프라인
+    General Manager Antigravity &middot; Editor Paul &middot; Groq AI (LLaMA 3.3) &middot; Liquid Glass Design
   </div>
 </div>
 </body>
