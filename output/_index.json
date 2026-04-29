@@ -1,0 +1,15 @@
+{
+  "_description": "QER 포스팅 히스토리 인덱스. ai_engine.py가 생성 후 자동 갱신. 반복 테마 방지에 사용.",
+  "recent_rotation": [
+    {
+      "date": "2026-04-29",
+      "title": "신기함의 순간",
+      "theme": "성장"
+    },
+    {
+      "date": "2026-04-29",
+      "title": "성장의 순간",
+      "theme": "성장"
+    }
+  ]
+}

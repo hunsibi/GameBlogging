@@ -3,7 +3,7 @@
   <img src="https://img.shields.io/badge/Python-3.10+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python" />
   <img src="https://img.shields.io/badge/Streamlit-FF4B4B?style=for-the-badge&logo=streamlit&logoColor=white" alt="Streamlit" />
   <img src="https://img.shields.io/badge/Groq-API-blue?style=for-the-badge&logo=ai&logoColor=white" alt="Groq" />
-  <img src="https://img.shields.io/badge/Release-V7.1-orange?style=for-the-badge" alt="Version" />
+  <img src="https://img.shields.io/badge/Release-V7.2-orange?style=for-the-badge" alt="Version" />
 </div>
 
 <br>
@@ -37,8 +37,16 @@
 ## 🛠️ 기술 스택 (Tech Stack)
 
 ### **Core AI Engine**
-- **LLM**: Groq (Llama-3.3-70B-Versatile) - 초고속 렌더링 및 CJK 주입 방어형 화이트리스트 필터링 구현
-- **Image Gen**: Pollinations AI (Fallback: LoremFlickr)
+- **LLM**: Groq (Llama-3.3-70B-Versatile) - 초고속 추론 및 CJK 주입 방어형 화이트리스트 필터링
+- **Image Gen**: Pollinations AI (Fallback: LoremFlickr) — Base64 인코딩 내장
+- **Knowledge System**: `knowledge/` 폴더 기반 Single Source of Truth — 브랜드 사실·금칙어·톤 가이드를 코드 외부에서 관리
+
+### **Quality & History**
+- **품질 검증**: `quality_check.py` — HTML 태그 닫힘·이미지 수·한글 비율 등 7항목 자동 검사
+- **히스토리 트래킹**: `output/_index.json` — 포스팅 생성 이력 자동 기록, 반복 테마 자동 회피
+
+### **Agent Architecture**
+- **에이전트 역할 분리**: `.claude/agents/` — analyzer(분석)·writer(집필)·validator(검증) 독립 파일로 관리
 
 ### **Backend & Framework**
 - **Web Dashboard**: Streamlit (KCF 시연 및 관제용)
@@ -51,14 +59,26 @@
 
 ```text
 📦 QER-AI-Publisher
- ┣ 📂 0_Input/         # 사용자 테스트 업로드/메모가 1차적으로 들어오는 보안 공간 (로컬 전용)
- ┣ 📂 1_Output/        # 생성된 Base64 삽입형 HTML이 저장되는 공간 (다운로드 제공)
- ┣ 📜 AGENTS.md        # QER 미디어 소속 에이전트들의 성격과 행동 강령 (System Prompt Core)
- ┣ 📜 ai_engine.py     # 모든 SNS 플랫폼과 대시보드가 공유하는 메인 멀티 에이전트 클래스
- ┣ 📜 app.py           # Streamlit 관제 웹 (Liquid Glass 디자인 적용)
- ┣ 📜 sns_server.py    # 카카오톡 연동용 FastAPI Webhook 서버 (Background 비동기 처리)
- ┣ 📜 telegram_bot.py  # 텔레그램 연동 봇
- ┗ 📜 .gitignore       # API Key 및 쓰레기 파일 차단 보안 파일
+ ┣ 📂 0_Input/              # 사용자 테스트 업로드/메모 (로컬 전용)
+ ┣ 📂 1_Output/             # 생성된 Base64 삽입형 HTML 저장 공간
+ ┣ 📂 output/               # 포스팅 히스토리 인덱스 (_index.json)
+ ┃  ┗ 📜 _index.json        # 생성 이력 자동 기록 — 반복 테마 방지용
+ ┣ 📂 knowledge/            # ⭐ Single Source of Truth (브랜드 사실 저장소)
+ ┃  ┣ 📜 brand-facts.md     # QER 브랜드 정체성, AI 직원 명칭, 기술 스택
+ ┃  ┣ 📜 banned-words.json  # AI 클리셰·금지 표현 목록
+ ┃  ┗ 📜 tone-guide.md      # 감성 에세이 문장 스타일 가이드
+ ┣ 📂 .claude/
+ ┃  ┗ 📂 agents/            # Claude Code 서브에이전트 역할 정의
+ ┃     ┣ 📜 analyzer.md     # Extractor: 메모 → JSON 분석
+ ┃     ┣ 📜 writer.md       # Editor Paul: JSON → HTML 집필
+ ┃     ┗ 📜 validator.md    # 품질 검증 지시서
+ ┣ 📜 AGENTS.md             # QER 에이전트 전술 지침서 (System Prompt Core)
+ ┣ 📜 ai_engine.py          # 공유 AI 창작 엔진 (knowledge 연동, 히스토리 기록)
+ ┣ 📜 app.py                # Streamlit 관제 웹 (Liquid Glass 디자인)
+ ┣ 📜 quality_check.py      # 포스팅 품질 자동 검증기 (7항목)
+ ┣ 📜 sns_server.py         # 카카오톡 FastAPI Webhook 서버
+ ┣ 📜 telegram_bot.py       # 텔레그램 봇
+ ┗ 📜 .gitignore            # API Key 및 민감 파일 차단
 ```
 
 ---
@@ -85,6 +105,10 @@ BASE_URL=https://your-server-url.com
 pip install streamlit fastapi uvicorn groq python-telegram-bot httpx python-multipart
 ```
 
+### 3. 브랜드 정보 설정 (선택, 최초 1회)
+`knowledge/brand-facts.md`를 열어 프로젝트에 맞게 수정하세요.
+코드를 건드리지 않고도 브랜드 이름·AI 직원 명칭·금칙어를 변경할 수 있습니다.
+
 ### 3. 텔레그램 봇 생성 가이드 (Telegram Bot Setup)
 텔레그램 봇 연동을 위해 다음 절차에 따라 봇을 생성하고 토큰을 발급받아야 합니다:
 1. 스마트폰/PC 텔레그램 앱에서 **`BotFather`**를 검색하여 대화방에 입장합니다.
@@ -92,7 +116,13 @@ pip install streamlit fastapi uvicorn groq python-telegram-bot httpx python-mult
 3. 화면에 발급되는 긴 문자열의 **`HTTP API Token`**을 복사합니다.
 4. 최상단 디렉토리의 `.env` 파일에 `TELEGRAM_BOT_TOKEN=발급받은토큰` 형태로 저장합니다.
 
-### 4. 서비스별 실행 방법
+### 4. 품질 검증 (선택)
+포스팅 생성 후 7항목 자동 검사:
+```bash
+python quality_check.py --file shared/current_post.html
+```
+
+### 5. 서비스별 실행 방법
 
 **A. 관제용 웹 대시보드 (Streamlit) 실행:**
 ```bash

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python *)",
+      "Bash(streamlit run *)",
+      "Bash(tasklist)",
+      "Bash(git add *)"
+    ]
+  }
+}

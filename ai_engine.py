@@ -7,9 +7,69 @@ import re
 import json
 import base64
 import random
+import datetime
 import urllib.parse
 import urllib.request
+from pathlib import Path
 from groq import Groq
+
+_ROOT = Path(__file__).parent
+
+
+def _load_knowledge() -> dict:
+    """knowledge/ 폴더에서 브랜드 사실, 금칙어, 최근 테마를 읽어옵니다."""
+    brand_facts = ""
+    banned_words: list[str] = []
+    recent_themes: list[str] = []
+
+    brand_path = _ROOT / "knowledge" / "brand-facts.md"
+    if brand_path.exists():
+        brand_facts = brand_path.read_text(encoding="utf-8")
+
+    banned_path = _ROOT / "knowledge" / "banned-words.json"
+    if banned_path.exists():
+        try:
+            data = json.loads(banned_path.read_text(encoding="utf-8"))
+            for cat in data.get("categories", {}).values():
+                banned_words.extend(cat.get("words", []))
+        except Exception:
+            pass
+
+    index_path = _ROOT / "output" / "_index.json"
+    if index_path.exists():
+        try:
+            index = json.loads(index_path.read_text(encoding="utf-8"))
+            recent_themes = [
+                e.get("theme", "") for e in index.get("recent_rotation", [])[-5:]
+                if e.get("theme")
+            ]
+        except Exception:
+            pass
+
+    return {
+        "brand_facts": brand_facts,
+        "banned_words": banned_words,
+        "recent_themes": recent_themes,
+    }
+
+
+def _update_index(title: str, theme: str) -> None:
+    """output/_index.json에 새 포스팅 항목을 추가합니다."""
+    index_path = _ROOT / "output" / "_index.json"
+    index_path.parent.mkdir(exist_ok=True)
+    try:
+        index = json.loads(index_path.read_text(encoding="utf-8")) if index_path.exists() else {}
+    except Exception:
+        index = {}
+
+    rotation: list = index.get("recent_rotation", [])
+    rotation.append({
+        "date": datetime.datetime.now().strftime("%Y-%m-%d"),
+        "title": title,
+        "theme": theme,
+    })
+    index["recent_rotation"] = rotation[-20:]  # 최근 20개만 유지
+    index_path.write_text(json.dumps(index, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
 def load_groq_key() -> str:
@@ -78,6 +138,10 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
     if not raw_text.strip():
         raw_text = "오늘 하루도 감사합니다"
 
+    knowledge = _load_knowledge()
+    banned_str = ", ".join(knowledge["banned_words"][:15]) if knowledge["banned_words"] else ""
+    recent_str = ", ".join(knowledge["recent_themes"]) if knowledge["recent_themes"] else "없음"
+
     images_to_use = list(images_b64)
     captions = ["📸 기록의 순간", "📸 감정의 결", "📸 기억의 빛"]
     novel_title = "오늘, 나의 이야기"
@@ -93,27 +157,33 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
         try:
             client = Groq(api_key=groq_key)
             system_msg = (
-                "You are a master Korean emotional essay writer. "
+                "You are a master Korean emotional essay writer for QER Company. "
                 "Write ONLY in pure Korean Hangul. "
                 "No Chinese characters, no Japanese, no HTML tags in your text. "
                 "Return ONLY valid JSON, no markdown fences."
             )
+            banned_rule = f"- 다음 단어들은 절대 사용 금지: {banned_str}\n" if banned_str else ""
+            recent_rule = (f"- 최근 사용된 테마 (반드시 다른 시각/감성으로 접근): {recent_str}\n"
+                           if recent_str != "없음" else "")
             user_msg = (
                 "아래 사용자의 일기 메모를 바탕으로 감성 에세이 3챕터를 창작하세요.\n\n"
                 "[사용자 메모]\n" + raw_text.strip() + "\n\n"
                 "[규칙]\n"
                 "- 순수 한국어(한글)만 사용. 한자·영어 단어 혼용 금지.\n"
                 "- 원본 텍스트를 그대로 반복하지 말고 감성적으로 재해석.\n"
-                "- 1인칭 시점(나는, 내가, 저는)으로 작성.\n"
+                "- 1인칭 시점(나는, 내가, 저는)으로 작성. 라디오 DJ 말투 금지.\n"
                 "- 각 챕터는 서로 다른 감성과 시각으로 최소 5문장 이상.\n"
-                "- HTML 태그 절대 금지. 아래 JSON 형식만 출력.\n\n"
-                '{"title":"15자 이내 감성적 제목",'
+                "- HTML 태그 절대 금지. 아래 JSON 형식만 출력.\n"
+                + banned_rule
+                + recent_rule +
+                '\n{"title":"15자 이내 감성적 제목",'
                 '"ch1_title":"챕터1 소제목","ch1_text":"챕터1 본문 5문장+",'
                 '"ch2_title":"챕터2 소제목","ch2_text":"챕터2 본문 5문장+",'
                 '"ch3_title":"챕터3 소제목","ch3_text":"챕터3 본문 5문장+",'
                 '"img1_prompt":"ch1 mood English image prompt (specific, cinematic)",'
                 '"img2_prompt":"ch2 mood English image prompt",'
-                '"img3_prompt":"ch3 mood English image prompt"}'
+                '"img3_prompt":"ch3 mood English image prompt",'
+                '"theme":"이 글의 핵심 테마 키워드 (한 단어)"}'
             )
 
             completion = client.chat.completions.create(
@@ -140,6 +210,7 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
                 ai_data.get("img2_prompt", img_prompts[1]),
                 ai_data.get("img3_prompt", img_prompts[2]),
             ]
+            _update_index(novel_title, ai_data.get("theme", ""))
 
             # Liquid Glass inline styling for H3 and P
             H3 = ("color:#fff;font-weight:900;font-size:27px;margin:55px 0 16px;"
@@ -192,7 +263,6 @@ def generate_post(raw_text: str, images_b64: list[str] | None = None,
                    .replace("[IMG_3]", img_tags[2]))
 
     # ── 최종 HTML 조립 (Liquid Glass Aesthetic) ───────────────────
-    import datetime
     pub_date = datetime.datetime.now().strftime("%Y년 %m월 %d일")
     full_html = f"""<!DOCTYPE html>
 <html lang="ko">
